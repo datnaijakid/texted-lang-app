@@ -113,6 +113,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 
 possible_dist_paths = [
+    Path("/var/task/frontend/dist"),
     Path(__file__).resolve().parent.parent.parent / "frontend" / "dist",
     Path("frontend/dist"),
     Path(__file__).resolve().parent.parent / "dist",
