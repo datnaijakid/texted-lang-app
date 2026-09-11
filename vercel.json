@@ -1,19 +1,19 @@
 {
-  "installCommand": "npm install --include=dev",
+  "installCommand": "npm install --include=dev --include=optional",
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.py": {
-      "includeFiles": "frontend/dist/**"
+      "includeFiles": "backend/**"
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/:path*",
       "destination": "/api/index.py"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/:path*",
       "destination": "/index.html"
     }
   ]
