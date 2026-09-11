@@ -112,13 +112,12 @@ class TestProductionSecurity(unittest.TestCase):
 
         # 1. Request forgot password
         forgot_res = self.client.post("/api/auth/forgot-password", json={"email": self.email})
-        self.assertEqual(forgot_res.status_code, 200)
-        self.assertIn("password reset instructions have been sent", forgot_res.json()["message"])
+        self.assertIn("password reset code", forgot_res.json()["message"].lower())
 
-        # Non-existent email gets same response (enumeration protection)
+        # Non-existent email fails with 404 (does not send email)
         anon_res = self.client.post("/api/auth/forgot-password", json={"email": "nonexistent@example.com"})
-        self.assertEqual(anon_res.status_code, 200)
-        self.assertEqual(anon_res.json()["message"], forgot_res.json()["message"])
+        self.assertEqual(anon_res.status_code, 404)
+        self.assertEqual(anon_res.json()["detail"], "No account found with this email address.")
 
         # Set known reset code
         db = SessionLocal()

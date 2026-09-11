@@ -4,6 +4,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Response, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.config import get_settings
@@ -88,7 +89,8 @@ async def register(payload: schemas.RegisterRequest, response: Response, db: Ses
     if pwd_err:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=pwd_err)
 
-    existing = db.query(models.User).filter(models.User.email == payload.email).first()
+    clean_email = payload.email.strip().lower()
+    existing = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
 
@@ -97,7 +99,7 @@ async def register(payload: schemas.RegisterRequest, response: Response, db: Ses
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Unknown language code: {code}")
 
     user = models.User(
-        email=payload.email,
+        email=clean_email,
         hashed_password=hash_password(payload.password),
         display_name=payload.display_name,
         native_language_code=payload.native_language_code,
@@ -148,9 +150,10 @@ async def register(payload: schemas.RegisterRequest, response: Response, db: Ses
 
 @router.post("/verify-email", response_model=schemas.TokenResponse)
 def verify_email(payload: schemas.VerifyEmailRequest, response: Response, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == payload.email).first()
+    clean_email = payload.email.strip().lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid verification request.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No account found with this email address.")
 
     if user.email_verified:
         token = create_access_token(subject=user.id)
@@ -218,12 +221,14 @@ def verify_email(payload: schemas.VerifyEmailRequest, response: Response, db: Se
 
 @router.post("/resend-verification")
 async def resend_verification(payload: schemas.ResendVerificationRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == payload.email).first()
-    # Protect against account enumeration: return consistent response even if not found
-    generic_msg = {"message": "If an unverified account exists, a new verification code has been sent."}
+    clean_email = payload.email.strip().lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
 
     if not user:
-        return generic_msg
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No account found with this email address.",
+        )
 
     if user.email_verified:
         return {"message": "This account is already verified. Please sign in."}
@@ -261,17 +266,19 @@ async def resend_verification(payload: schemas.ResendVerificationRequest, db: Se
     db.commit()
 
     await send_verification_email(user.email, code)
-    return generic_msg
+    return {"message": "A new verification code has been sent to your email."}
 
 
 @router.post("/forgot-password")
 async def forgot_password(payload: schemas.ForgotPasswordRequest, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.email == payload.email).first()
-    # Protect against account enumeration
-    generic_msg = {"message": "If an account exists with this email, password reset instructions have been sent."}
+    clean_email = payload.email.strip().lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
 
     if not user:
-        return generic_msg
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No account found with this email address.",
+        )
 
     # Rate limit: 60 seconds cooldown
     latest = (
@@ -316,7 +323,7 @@ async def forgot_password(payload: schemas.ForgotPasswordRequest, db: Session = 
     db.commit()
 
     await send_password_reset_email(user.email, code)
-    return generic_msg
+    return {"message": "A password reset code has been sent to your email."}
 
 
 @router.post("/reset-password")
@@ -325,9 +332,10 @@ def reset_password(payload: schemas.ResetPasswordRequest, response: Response, db
     if pwd_err:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=pwd_err)
 
-    user = db.query(models.User).filter(models.User.email == payload.email).first()
+    clean_email = payload.email.strip().lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid or expired reset code.")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No account found with this email address.")
 
     record = (
         db.query(models.PasswordResetCode)
@@ -392,7 +400,8 @@ def login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
-    user = db.query(models.User).filter(models.User.email == form_data.username).first()
+    clean_email = form_data.username.strip().lower()
+    user = db.query(models.User).filter(func.lower(models.User.email) == clean_email).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
 
