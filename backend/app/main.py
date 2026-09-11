@@ -96,3 +96,40 @@ def readiness():
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             content={"status": "not_ready", "database": "unreachable"},
         )
+
+
+# Static files / SPA fallback
+# Look for frontend/dist in various relative locations (local, Vercel monorepo, etc.)
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+possible_dist_paths = [
+    Path(__file__).resolve().parent.parent.parent / "frontend" / "dist",
+    Path("frontend/dist"),
+    Path(__file__).resolve().parent.parent / "dist",
+]
+
+frontend_dist = None
+for p in possible_dist_paths:
+    if p.exists() and (p / "index.html").exists():
+        frontend_dist = p
+        break
+
+if frontend_dist:
+    assets_dir = frontend_dist / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
+
+    @app.get("/")
+    def serve_root():
+        return FileResponse(frontend_dist / "index.html")
+
+    @app.get("/{full_path:path}")
+    def serve_spa(full_path: str):
+        if full_path.startswith("api/"):
+            return JSONResponse(status_code=status.HTTP_404_NOT_FOUND, content={"detail": "Not Found"})
+        target = frontend_dist / full_path
+        if target.is_file():
+            return FileResponse(target)
+        return FileResponse(frontend_dist / "index.html")

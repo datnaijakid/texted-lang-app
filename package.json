@@ -2,7 +2,10 @@
   "name": "texted-app",
   "private": true,
   "version": "1.0.0",
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "build": "cd frontend && npm install && npm run build"
+    "build": "npm run build --workspace=frontend"
   }
 }
