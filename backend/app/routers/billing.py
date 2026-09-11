@@ -64,13 +64,17 @@ def create_checkout_session(
     success_url = (payload and payload.success_url) or settings.stripe_success_url
     cancel_url = (payload and payload.cancel_url) or settings.stripe_cancel_url
 
+    if "{CHECKOUT_SESSION_ID}" not in success_url:
+        sep = "&" if "?" in success_url else "?"
+        success_url = f"{success_url}{sep}session_id={{CHECKOUT_SESSION_ID}}"
+
     try:
         session = stripe.checkout.Session.create(
             customer=current_user.stripe_customer_id,
             mode="subscription",
             payment_method_types=["card"],
             line_items=[{"price": price_id, "quantity": 1}],
-            success_url=success_url + "?session_id={CHECKOUT_SESSION_ID}",
+            success_url=success_url,
             cancel_url=cancel_url,
             metadata={"user_id": current_user.id},
             subscription_data={"metadata": {"user_id": current_user.id}},

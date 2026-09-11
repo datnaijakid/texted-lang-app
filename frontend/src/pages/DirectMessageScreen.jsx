@@ -153,6 +153,21 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
     }
   }, [user?.auto_translate, messages])
 
+  const [showUpgradeSuccess, setShowUpgradeSuccess] = useState(false)
+
+  // Detect return from Stripe Checkout
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get('upgraded') === 'true' || params.get('session_id')) {
+      setShowUpgradeSuccess(true)
+      api.me().then((freshUser) => onUserUpdated?.(freshUser)).catch(() => {})
+      loadUsage()
+      window.history.replaceState({}, document.title, window.location.pathname)
+      const timer = setTimeout(() => setShowUpgradeSuccess(false), 6000)
+      return () => clearTimeout(timer)
+    }
+  }, [])
+
   // Load conversation & usage on mount and whenever learning language or level changes
   useEffect(() => {
     loadConversation()
@@ -426,7 +441,13 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
   const activeChips = suggestedReplies.length > 0 ? suggestedReplies : starterChips
 
   return (
-    <div className="h-screen w-full flex flex-col bg-[#09090b] text-slate-100 overflow-hidden font-sans">
+    <div className="h-screen w-full flex flex-col bg-[#09090b] text-slate-100 overflow-hidden font-sans relative">
+      {showUpgradeSuccess && (
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-50 bg-[#18181b] border border-blue-500 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl flex items-center gap-2 animate-pop-in">
+          <span className="text-amber-400 font-bold text-sm">⭐</span>
+          <span className="font-medium">Welcome to Texted Pro! Unlimited messaging is now unlocked.</span>
+        </div>
+      )}
       {/* ========================================================================= */}
       {/* 1. INSTAGRAM-DM HEADER */}
       {/* ========================================================================= */}
