@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { api, setToken } from '../api'
 
 const LANGUAGES = [
-  { code: 'es', name: 'Spanish', flag: '🇪🇸', partner: 'Sofia' },
-  { code: 'fr', name: 'French', flag: '🇫🇷', partner: 'Camille' },
-  { code: 'it', name: 'Italian', flag: '🇮🇹', partner: 'Marco' },
-  { code: 'de', name: 'German', flag: '🇩🇪', partner: 'Lukas' },
-  { code: 'ja', name: 'Japanese', flag: '🇯🇵', partner: 'Kenji' },
-  { code: 'en', name: 'English', flag: '🇬🇧', partner: 'Emma' },
+  { code: 'es', name: 'Spanish', flag: '🇪🇸', partner: 'Sofia', handle: '@sofia_bcn', city: 'Barcelona' },
+  { code: 'fr', name: 'French', flag: '🇫🇷', partner: 'Camille', handle: '@camille_paris', city: 'Paris' },
+  { code: 'it', name: 'Italian', flag: '🇮🇹', partner: 'Marco', handle: '@marco_roma', city: 'Rome' },
+  { code: 'de', name: 'German', flag: '🇩🇪', partner: 'Lukas', handle: '@lukas_berlin', city: 'Berlin' },
+  { code: 'ja', name: 'Japanese', flag: '🇯🇵', partner: 'Kenji', handle: '@kenji_tokyo', city: 'Tokyo' },
+  { code: 'en', name: 'English', flag: '🇬🇧', partner: 'Emma', handle: '@emma_nyc', city: 'New York' },
 ]
 
 export default function ProfileDrawer({
@@ -172,8 +172,11 @@ export default function ProfileDrawer({
                     >
                       <span className="text-lg">{l.flag}</span>
                       <div className="min-w-0">
-                        <div className="text-xs font-semibold truncate">{l.partner}</div>
-                        <div className="text-[10px] text-slate-400 truncate">{l.name}</div>
+                        <div className="text-xs font-semibold truncate flex items-center gap-1">
+                          <span>{l.partner}</span>
+                          <span className="text-[10px] text-zinc-400 font-normal">{l.handle}</span>
+                        </div>
+                        <div className="text-[10px] text-slate-400 truncate">{l.name} · {l.city}</div>
                       </div>
                     </div>
                   ))}
@@ -292,7 +295,7 @@ export default function ProfileDrawer({
                   <div className="text-3xl">📓</div>
                   <div className="text-xs">No saved words yet.</div>
                   <div className="text-[11px] text-slate-600 max-w-xs mx-auto">
-                    When your AI partner corrects or teaches you a word during chat, tap "Save" to keep it here!
+                    When your friend shares a word or natural phrase during chat, tap "Save" to keep it here!
                   </div>
                 </div>
               )}

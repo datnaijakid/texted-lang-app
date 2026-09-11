@@ -73,7 +73,7 @@ export default function UpgradeModal({ isOpen, onClose, currentTier, onTierChang
               },
               {
                 title: 'All Language Partners',
-                desc: 'Access Spanish, French, Italian, German, Japanese, and English personas.',
+                desc: 'Text with Sofia, Camille, Marco, Lukas, Kenji, and Emma anytime.',
               },
               {
                 title: 'Personalized Corrections',

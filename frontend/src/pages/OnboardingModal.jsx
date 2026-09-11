@@ -7,6 +7,7 @@ const LANGUAGES = [
     name: 'Spanish',
     flag: '🇪🇸',
     partner: 'Sofia',
+    handle: '@sofia_bcn',
     city: 'Barcelona',
     tagline: 'Warm & witty, loves indie music & coffee',
     avatarGradient: 'from-rose-500 to-amber-500',
@@ -17,6 +18,7 @@ const LANGUAGES = [
     name: 'French',
     flag: '🇫🇷',
     partner: 'Camille',
+    handle: '@camille_paris',
     city: 'Paris',
     tagline: 'Architecture student, cafe culture & art',
     avatarGradient: 'from-emerald-500 to-teal-500',
@@ -27,6 +29,7 @@ const LANGUAGES = [
     name: 'Italian',
     flag: '🇮🇹',
     partner: 'Marco',
+    handle: '@marco_roma',
     city: 'Rome',
     tagline: 'Cinema fan & foodie, loves good vibes',
     avatarGradient: 'from-amber-500 to-orange-500',
@@ -37,6 +40,7 @@ const LANGUAGES = [
     name: 'German',
     flag: '🇩🇪',
     partner: 'Lukas',
+    handle: '@lukas_berlin',
     city: 'Berlin',
     tagline: 'Tech designer & music lover, direct & chill',
     avatarGradient: 'from-blue-500 to-cyan-500',
@@ -47,6 +51,7 @@ const LANGUAGES = [
     name: 'Japanese',
     flag: '🇯🇵',
     partner: 'Kenji',
+    handle: '@kenji_tokyo',
     city: 'Tokyo',
     tagline: 'Animator & gamer, friendly casual chats',
     avatarGradient: 'from-purple-500 to-pink-500',
@@ -57,6 +62,7 @@ const LANGUAGES = [
     name: 'English',
     flag: '🇬🇧',
     partner: 'Emma',
+    handle: '@emma_nyc',
     city: 'New York',
     tagline: 'Podcast creator, street food & travel',
     avatarGradient: 'from-indigo-500 to-purple-500',
@@ -168,7 +174,7 @@ export default function OnboardingModal({ user, onComplete }) {
               <div>
                 <h2 className="text-xl font-bold text-white">Who do you want to text with?</h2>
                 <p className="text-sm text-slate-400 mt-1">
-                  Pick your target language. You'll get a dedicated AI friend to practice with!
+                  Choose a language partner living in their home city.
                 </p>
               </div>
 
@@ -191,9 +197,12 @@ export default function OnboardingModal({ user, onComplete }) {
                         {l.avatarLetter}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 font-semibold text-white text-sm">
-                          <span>{l.partner}</span>
-                          <span className="text-xs">{l.flag}</span>
+                        <div className="flex items-center justify-between font-semibold text-white text-sm">
+                          <div className="flex items-center gap-1.5 truncate">
+                            <span>{l.partner}</span>
+                            <span className="text-xs text-zinc-400 font-normal">{l.handle}</span>
+                          </div>
+                          <span className="text-xs shrink-0 ml-1">{l.flag}</span>
                         </div>
                         <div className="text-xs text-blue-400 font-medium">{l.name} · {l.city}</div>
                         <div className="text-[11px] text-slate-400 truncate mt-0.5">{l.tagline}</div>

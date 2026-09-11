@@ -5,12 +5,60 @@ import UpgradeModal from '../components/UpgradeModal'
 import QuickTranslator from '../components/QuickTranslator'
 
 const PERSONA_STYLES = {
-  Sofia: { gradient: 'from-rose-500 to-amber-500', flag: '🇪🇸', letter: 'S' },
-  Camille: { gradient: 'from-emerald-500 to-teal-500', flag: '🇫🇷', letter: 'C' },
-  Marco: { gradient: 'from-amber-500 to-orange-500', flag: '🇮🇹', letter: 'M' },
-  Lukas: { gradient: 'from-blue-500 to-cyan-500', flag: '🇩🇪', letter: 'L' },
-  Kenji: { gradient: 'from-purple-500 to-pink-500', flag: '🇯🇵', letter: 'K' },
-  Emma: { gradient: 'from-indigo-500 to-purple-500', flag: '🇬🇧', letter: 'E' },
+  Sofia: {
+    gradient: 'from-rose-500 to-amber-500',
+    flag: '🇪🇸',
+    letter: 'S',
+    handle: '@sofia_bcn',
+    city: 'Barcelona, Spain',
+    followers: '1.4k',
+    bio: 'Architecture student & specialty coffee lover. Text me anytime to practice!',
+  },
+  Camille: {
+    gradient: 'from-emerald-500 to-teal-500',
+    flag: '🇫🇷',
+    letter: 'C',
+    handle: '@camille_paris',
+    city: 'Paris, France',
+    followers: '2.1k',
+    bio: 'Art history, vintage vinyl & bakery walks in Montmartre.',
+  },
+  Marco: {
+    gradient: 'from-amber-500 to-orange-500',
+    flag: '🇮🇹',
+    letter: 'M',
+    handle: '@marco_roma',
+    city: 'Rome, Italy',
+    followers: '1.8k',
+    bio: 'Cinema lover & foodie. Always hunting for the best carbonara.',
+  },
+  Lukas: {
+    gradient: 'from-blue-500 to-cyan-500',
+    flag: '🇩🇪',
+    letter: 'L',
+    handle: '@lukas_berlin',
+    city: 'Berlin, Germany',
+    followers: '980',
+    bio: 'Sound designer & cyclist. Specialty coffee & electronic music.',
+  },
+  Kenji: {
+    gradient: 'from-purple-500 to-pink-500',
+    flag: '🇯🇵',
+    letter: 'K',
+    handle: '@kenji_tokyo',
+    city: 'Tokyo, Japan',
+    followers: '3.2k',
+    bio: 'Illustrator & gamer. Exploring hidden ramen spots in Shinjuku.',
+  },
+  Emma: {
+    gradient: 'from-indigo-500 to-purple-500',
+    flag: '🇬🇧',
+    letter: 'E',
+    handle: '@emma_nyc',
+    city: 'New York, USA',
+    followers: '1.6k',
+    bio: 'Podcast producer & bookworm. Finding quiet bookshops in the city.',
+  },
 }
 
 const COMMON_EMOJIS = ['😂', '😭', '☕', '🙌', '🍕', '✨', '👍', '❤️', '🌮', '🔥']
@@ -382,35 +430,35 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
       {/* ========================================================================= */}
       {/* 1. INSTAGRAM-DM HEADER */}
       {/* ========================================================================= */}
-      <header className="h-16 px-4 border-b border-base-800/80 bg-base-950/95 backdrop-blur-md flex items-center justify-between z-30 shrink-0">
-        <div className="flex items-center gap-3">
+      <header className="h-16 px-4 border-b border-zinc-800/80 bg-[#09090b]/95 backdrop-blur-md flex items-center justify-between z-30 shrink-0">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => setIsDrawerOpen(true)}>
           {/* Partner Avatar with Online Indicator */}
           <div className="relative">
             <div
-              className={`w-10 h-10 rounded-full bg-gradient-to-br ${partnerStyle.gradient} flex items-center justify-center font-bold text-white text-base shadow-md`}
+              className={`w-10 h-10 rounded-full bg-gradient-to-br ${partnerStyle.gradient} flex items-center justify-center font-bold text-white text-base shadow-sm`}
             >
               {partnerStyle.letter}
             </div>
-            <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-base-950 ring-1 ring-emerald-400/50" />
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#09090b]" />
           </div>
 
           {/* Partner Name & Subtitle */}
           <div>
-            <div className="flex items-center gap-1.5 font-bold text-white text-sm leading-tight">
+            <div className="flex items-center gap-1.5 font-semibold text-white text-sm leading-tight">
               <span>{partnerName}</span>
-              <span>{partnerStyle.flag}</span>
+              <span className="text-xs text-zinc-400 font-normal">{partnerStyle.handle}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[11px] text-slate-400 mt-0.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="flex items-center gap-1.5 text-[11px] text-zinc-400 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               <span>Active now</span>
-              <span className="text-slate-600">·</span>
-              <span className="capitalize">{user?.proficiency_level || 'Beginner'}</span>
+              <span className="text-zinc-600">·</span>
+              <span>{partnerStyle.city}</span>
             </div>
           </div>
         </div>
 
         {/* Right Header Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {/* Quick Translator Tool Button */}
           <button
             onClick={() => {
@@ -418,49 +466,30 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
               setIsTranslatorOpen(true)
             }}
             title="Translate a word or sentence"
-            className="px-3 py-1.5 rounded-full bg-base-900 border border-base-800 hover:border-blue-500 text-slate-300 hover:text-white flex items-center gap-1.5 transition-all text-xs font-semibold active:scale-95 shadow-sm"
+            className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center transition-colors text-sm"
           >
-            <span>🌐</span>
-            <span className="hidden sm:inline">Translate</span>
+            🌐
           </button>
 
           {/* Topic Reset Button */}
           <button
             onClick={handleResetConversation}
             title="Start new conversation topic"
-            className="w-9 h-9 rounded-full bg-base-900 border border-base-800 hover:border-base-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors text-xs"
+            className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white flex items-center justify-center transition-colors text-sm"
           >
             🔄
           </button>
 
-          {/* Quota / Pro Badge */}
-          <button
-            onClick={() => setIsUpgradeOpen(true)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95 border ${
-              isPro
-                ? 'bg-amber-500/10 border-amber-500/30 text-amber-300 hover:bg-amber-500/20'
-                : 'bg-base-900 border-base-800 text-slate-300 hover:border-blue-500'
-            }`}
-          >
-            {isPro ? (
-              <>
-                <span>⭐</span>
-                <span>Pro</span>
-              </>
-            ) : (
-              <>
-                <span className="w-2 h-2 rounded-full bg-blue-500" />
-                <span>{usage.messages_remaining} left</span>
-              </>
-            )}
-          </button>
-
-          {/* Settings / Profile Drawer Toggle */}
+          {/* Info / Settings Button (Instagram DM 'i' icon) */}
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="w-9 h-9 rounded-full bg-base-900 border border-base-800 hover:border-base-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors text-sm"
+            title="Chat Details & Settings"
+            className="w-9 h-9 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 hover:text-white flex items-center justify-center transition-colors"
           >
-            ⚙️
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" strokeWidth="2" />
+              <path strokeWidth="2" d="M12 16v-4m0-4h.01" />
+            </svg>
           </button>
         </div>
       </header>
@@ -473,27 +502,35 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
         onTouchEnd={handleTextSelect}
         className="flex-1 overflow-y-auto px-4 py-4 space-y-3.5 scrollbar-thin select-text relative"
       >
-        {/* Chat Intro Card */}
-        <div className="text-center py-6 border-b border-base-900 max-w-sm mx-auto space-y-2">
+        {/* Chat Intro Card - Authentic Instagram DM Profile Card */}
+        <div className="text-center py-8 max-w-sm mx-auto space-y-3">
           <div
-            className={`w-16 h-16 rounded-full bg-gradient-to-br ${partnerStyle.gradient} mx-auto flex items-center justify-center text-white text-2xl font-black shadow-xl ring-4 ring-base-900`}
+            className={`w-20 h-20 rounded-full bg-gradient-to-br ${partnerStyle.gradient} mx-auto flex items-center justify-center text-white text-3xl font-bold shadow-lg ring-2 ring-zinc-800`}
           >
             {partnerStyle.letter}
           </div>
-          <div className="font-bold text-white text-base">
-            {partnerName} {partnerStyle.flag}
+          <div>
+            <div className="font-bold text-white text-lg flex items-center justify-center gap-1.5">
+              <span>{partnerName}</span>
+              <span className="text-sm font-normal text-zinc-400">{partnerStyle.flag}</span>
+            </div>
+            <div className="text-xs text-zinc-400 mt-0.5">
+              {partnerStyle.handle} · Instagram
+            </div>
           </div>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            {conversation?.persona_bio || 'Your conversational partner. Text freely, learn naturally!'}
+          <p className="text-xs text-zinc-300 leading-relaxed max-w-xs mx-auto">
+            {partnerStyle.bio}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
-            <span className="text-[11px] text-blue-400 font-medium bg-blue-500/10 px-3 py-0.5 rounded-full border border-blue-500/20">
-              Topic: {conversation?.topic || 'Casual Chat'}
-            </span>
-            <span className="text-[11px] text-slate-400 bg-base-900 px-3 py-0.5 rounded-full border border-base-800">
-              💡 Highlight any word or sentence to translate
-            </span>
+          <div className="text-[11px] text-zinc-500">
+            {partnerStyle.city} · {partnerStyle.followers} followers
           </div>
+          <button
+            type="button"
+            onClick={() => setIsDrawerOpen(true)}
+            className="px-4 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold transition-colors shadow-sm"
+          >
+            View Profile
+          </button>
         </div>
 
         {/* Messages Loop */}
@@ -525,10 +562,10 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
 
                 {/* Message Bubble */}
                 <div
-                  className={`px-4 py-2.5 rounded-2xl text-[14px] leading-relaxed break-words whitespace-pre-wrap select-text cursor-text ${
+                  className={`px-4 py-2.5 rounded-[18px] text-[14px] leading-relaxed break-words whitespace-pre-wrap select-text cursor-text ${
                     isUser
-                      ? 'bg-blue-600 text-white rounded-br-xs'
-                      : 'bg-base-900 border border-base-800/90 text-slate-100 rounded-bl-xs shadow-sm'
+                      ? 'bg-[#0095f6] text-white rounded-br-sm'
+                      : 'bg-[#262626] text-white rounded-bl-sm shadow-sm'
                   }`}
                 >
                   {m.content}
@@ -537,7 +574,7 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
 
               {/* Timestamp & Status */}
               <div
-                className={`text-[10px] text-slate-500 mt-1 px-1 flex items-center gap-1.5 ${
+                className={`text-[10px] text-zinc-500 mt-1 px-1 flex items-center gap-1.5 ${
                   isUser ? 'text-right' : 'ml-9'
                 }`}
               >
@@ -555,7 +592,7 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
                     <button
                       type="button"
                       onClick={() => toggleTranslation(m.id, m.content)}
-                      className="text-[11px] font-semibold text-slate-400 hover:text-blue-400 transition-colors focus:outline-none"
+                      className="text-[11px] font-medium text-zinc-400 hover:text-blue-400 transition-colors focus:outline-none"
                     >
                       {translations[m.id]?.loading
                         ? 'Translating...'
@@ -567,16 +604,16 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
                 )}
               </div>
 
-              {/* Translation Box for AI partner messages */}
+              {/* Translation Box */}
               {!isUser && translations[m.id]?.visible && (
-                <div className="ml-9 mt-1.5 max-w-[85%] sm:max-w-[70%] animate-pop-in">
-                  <div className="px-3.5 py-2 rounded-xl bg-base-900/90 border border-base-800/80 text-[13px] text-slate-300 leading-relaxed shadow-sm">
-                    <div className="text-[10px] uppercase font-bold text-slate-500 mb-0.5 tracking-wider flex items-center gap-1">
+                <div className="ml-9 mt-1.5 max-w-[85%] sm:max-w-[70%]">
+                  <div className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 text-[13px] text-zinc-300 leading-relaxed shadow-sm">
+                    <div className="text-[10px] uppercase font-semibold text-zinc-500 mb-0.5 tracking-wider flex items-center gap-1">
                       <span>🌐</span>
                       <span>Translation {translations[m.id]?.targetName ? `(${translations[m.id]?.targetName})` : ''}</span>
                     </div>
                     {translations[m.id]?.loading ? (
-                      <span className="text-slate-400 italic text-xs">Fetching translation...</span>
+                      <span className="text-zinc-400 italic text-xs">Translating…</span>
                     ) : (
                       <span>{translations[m.id]?.text}</span>
                     )}
@@ -584,42 +621,46 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
                 </div>
               )}
 
-              {/* Subtle Correction Pill (Attached underneath user message) */}
+              {/* Subtle Friendly Native Tip */}
               {correction && (
-                <div className="mt-1.5 max-w-[85%] sm:max-w-[70%] text-left animate-pop-in">
+                <div className="mt-1.5 max-w-[85%] sm:max-w-[70%] text-left">
                   <div
                     onClick={() => setExpandedCorrectionId(isExpanded ? null : m.id)}
-                    className="cursor-pointer bg-base-900 border border-base-800 hover:border-base-700 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs transition-colors"
+                    className="cursor-pointer inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-xs text-zinc-300 transition-colors"
                   >
-                    <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded">TIP</span>
-                    <span className="text-slate-300 font-medium">
-                      Better: <span className="text-white font-semibold">"{correction.better}"</span>
+                    <span className="text-blue-400 text-xs">💬</span>
+                    <span>
+                      Natural way: <span className="text-white font-medium">"{correction.better}"</span>
                     </span>
-                    <span className="text-[10px] text-slate-500 ml-auto">{isExpanded ? '▲' : '▼'}</span>
+                    <span className="text-[10px] text-zinc-500 ml-1">{isExpanded ? '▲' : '▼'}</span>
                   </div>
 
-                  {/* Expanded Correction Details Card */}
+                  {/* Expanded Tip Card */}
                   {isExpanded && (
-                    <div className="mt-1.5 p-3.5 bg-base-900 border border-base-800 rounded-xl text-xs space-y-2 shadow-lg">
-                      <div className="flex items-center justify-between text-[11px] text-slate-400">
-                        <span>Learning Note</span>
-                        <span className="text-[10px] text-blue-400 font-semibold uppercase">Natural Phrasing</span>
+                    <div className="mt-1.5 p-3.5 bg-zinc-900 border border-zinc-800 rounded-2xl text-xs space-y-2.5 shadow-md">
+                      <div className="text-[11px] font-medium text-zinc-400 flex items-center justify-between">
+                        <span>Tip from {partnerName}</span>
+                        <span className="text-blue-400 text-[10px]">Casual Chat</span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 bg-base-950 p-2 rounded-xl">
-                        <div>
-                          <div className="text-[10px] text-slate-500">You said</div>
-                          <div className="text-red-400 line-through text-xs font-mono">{correction.original}</div>
+                      <div className="space-y-1.5 bg-zinc-950 p-2.5 rounded-xl border border-zinc-800/80">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-[11px] text-zinc-500 w-16 shrink-0">Natural:</span>
+                          <span className="text-emerald-400 font-medium text-sm">{correction.better}</span>
                         </div>
-                        <div>
-                          <div className="text-[10px] text-slate-500">Natural way</div>
-                          <div className="text-emerald-400 font-semibold text-xs font-mono">{correction.better}</div>
-                        </div>
+                        {correction.original && (
+                          <div className="flex items-baseline gap-2 text-zinc-400">
+                            <span className="text-[11px] text-zinc-500 w-16 shrink-0">You wrote:</span>
+                            <span className="text-xs text-zinc-300">{correction.original}</span>
+                          </div>
+                        )}
                       </div>
 
-                      <div className="text-slate-300 text-[12px] leading-relaxed">
-                        {correction.explanation}
-                      </div>
+                      {correction.explanation && (
+                        <p className="text-zinc-300 text-xs leading-relaxed">
+                          {correction.explanation}
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
@@ -636,10 +677,10 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
             >
               {partnerStyle.letter}
             </div>
-            <div className="bg-base-900 border border-base-800 px-4 py-3 rounded-2xl rounded-bl-xs text-slate-400 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" />
+            <div className="bg-[#262626] border border-[#262626] px-4 py-3 rounded-[18px] rounded-bl-sm text-zinc-400 flex items-center gap-1.5 shadow-sm">
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" />
             </div>
           </div>
         )}
@@ -757,26 +798,25 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
       </main>
 
       {/* ========================================================================= */}
-      {/* 3. DYNAMIC CONTEXTUAL 1-TAP REPLY CHIPS & EMOJI PICKER */}
+      {/* 3. CONTEXTUAL QUICK REPLIES & EMOJI PICKER */}
       {/* ========================================================================= */}
       {activeChips.length > 0 && !sending && !aiTyping && (
-        <div className="px-4 py-2 flex items-center gap-2 overflow-x-auto scrollbar-none shrink-0 bg-base-950/90 border-t border-base-800/40">
-          <div className="flex items-center gap-1 text-[11px] font-semibold text-blue-400 shrink-0 select-none mr-1">
-            <span className="text-xs">⚡</span>
-            <span className="hidden sm:inline">1-Tap:</span>
-          </div>
+        <div className="px-4 py-2 flex items-center gap-2 overflow-x-auto scrollbar-none shrink-0 bg-[#09090b] border-t border-[#262626]">
+          <span className="text-[11px] font-medium text-zinc-500 shrink-0 select-none">
+            Suggested:
+          </span>
           {activeChips.map((chip, i) => (
             <button
               key={i}
               type="button"
               onClick={() => handleSendMessage(chip.text)}
               title={chip.translation ? `${chip.text} (${chip.translation})` : chip.text}
-              className="group px-3 py-1.5 bg-base-900 hover:bg-blue-600/20 active:scale-95 border border-base-800 hover:border-blue-500/50 text-slate-200 hover:text-blue-200 rounded-full text-xs whitespace-nowrap transition-all shadow-sm flex items-center gap-1.5"
+              className="group px-3 py-1 bg-[#18181b] hover:bg-[#27272a] active:scale-95 border border-[#27272a] hover:border-zinc-600 text-zinc-200 rounded-full text-xs whitespace-nowrap transition-all flex items-center gap-1.5"
             >
-              <span className="font-medium">{chip.label}</span>
+              <span className="font-normal">{chip.label}</span>
               {chip.translation && (
-                <span className="text-[10px] text-slate-400 group-hover:text-blue-300 transition-colors hidden md:inline">
-                  · {chip.translation}
+                <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400 transition-colors hidden md:inline">
+                  ({chip.translation})
                 </span>
               )}
             </button>
@@ -785,7 +825,7 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
       )}
 
       {showEmojiPicker && (
-        <div className="px-4 py-2 bg-base-900/90 border-t border-base-800 flex items-center gap-2 overflow-x-auto shrink-0 animate-pop-in">
+        <div className="px-4 py-2 bg-[#18181b] border-t border-[#262626] flex items-center gap-2 overflow-x-auto shrink-0 animate-pop-in">
           {COMMON_EMOJIS.map((emoji) => (
             <button
               key={emoji}
@@ -801,72 +841,62 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
       {/* ========================================================================= */}
       {/* 4. INSTAGRAM-DM BOTTOM INPUT BAR */}
       {/* ========================================================================= */}
-      <footer className="p-3 border-t border-base-800/80 bg-base-950 shrink-0">
+      <footer className="p-3 border-t border-[#262626] bg-[#09090b] shrink-0">
         <form
           onSubmit={(e) => {
             e.preventDefault()
             handleSendMessage()
           }}
-          className="flex items-center gap-2 max-w-3xl mx-auto"
+          className="flex items-center gap-2.5 max-w-3xl mx-auto"
         >
-          {/* Emoji Toggle Button */}
-          <button
-            type="button"
-            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            className="w-10 h-10 rounded-full bg-base-900 border border-base-800 hover:border-base-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors text-base shrink-0"
-          >
-            😊
-          </button>
+          {/* Integrated Capsule Input Bar */}
+          <div className="flex-1 bg-[#262626] rounded-full flex items-center px-3.5 py-1.5 transition-all focus-within:ring-1 focus-within:ring-zinc-500">
+            {/* Emoji Button */}
+            <button
+              type="button"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              className="text-zinc-400 hover:text-white transition-colors text-lg mr-2 p-1"
+              title="Add emoji"
+            >
+              😊
+            </button>
 
-          {/* Quick Translator Shortcut Button */}
-          <button
-            type="button"
-            onClick={() => {
-              setTranslatorInitialText(input)
-              setIsTranslatorOpen(true)
-            }}
-            title="Translate a word or sentence"
-            className="w-10 h-10 rounded-full bg-base-900 border border-base-800 hover:border-blue-500 text-slate-400 hover:text-blue-400 flex items-center justify-center transition-colors text-base shrink-0"
-          >
-            🌐
-          </button>
-
-          {/* Text Input Pill */}
-          <div className="flex-1 relative flex items-center">
+            {/* Input field */}
             <input
               ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               disabled={sending}
-              placeholder={`Message ${partnerName} in ${partnerStyle.flag}...`}
-              className="w-full bg-base-900 border border-base-800 hover:border-base-700 focus:border-blue-500 rounded-full px-5 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition-all shadow-inner"
+              placeholder={`Message ${partnerName}...`}
+              className="flex-1 bg-transparent text-sm text-white placeholder-zinc-500 outline-none py-1.5"
             />
+
+            {/* Translator shortcut within bar */}
+            <button
+              type="button"
+              onClick={() => {
+                setTranslatorInitialText(input)
+                setIsTranslatorOpen(true)
+              }}
+              title="Dictionary & Translator"
+              className="text-zinc-400 hover:text-sky-400 transition-colors text-base ml-2 p-1"
+            >
+              🌐
+            </button>
           </div>
 
-          {/* Send Button */}
+          {/* Clean Send Button (Instagram-style) */}
           <button
             type="submit"
             disabled={sending || !input.trim()}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-150 shrink-0 ${
+            className={`px-3.5 py-2 rounded-full font-semibold text-sm transition-all duration-150 shrink-0 ${
               input.trim()
-                ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/25 active:scale-95'
-                : 'bg-base-900 border border-base-800 text-slate-600 cursor-not-allowed'
+                ? 'text-[#0095f6] hover:text-sky-400 active:scale-95'
+                : 'text-zinc-600 cursor-not-allowed opacity-50'
             }`}
           >
-            <svg
-              className="w-4 h-4 translate-x-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.5}
-                d="M5 12h14M12 5l7 7-7 7"
-              />
-            </svg>
+            Send
           </button>
         </form>
       </footer>
