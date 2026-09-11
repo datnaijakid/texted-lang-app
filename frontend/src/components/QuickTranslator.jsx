@@ -99,7 +99,7 @@ export default function QuickTranslator({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
-      <div className="w-full max-w-lg bg-base-950 border border-base-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="w-full max-w-lg bg-[#09090b] border border-base-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="px-5 py-4 border-b border-base-800 flex items-center justify-between bg-base-900/50">
           <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export default function QuickTranslator({
         {/* Direction Switcher */}
         <div className="px-5 pt-4 pb-2">
           <div className="flex items-center justify-between bg-base-900 border border-base-800 rounded-2xl p-2">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-base-950 rounded-xl text-xs font-semibold text-white">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#09090b] rounded-xl text-xs font-semibold text-white">
               <span>{sourceLang.flag}</span>
               <span>{sourceLang.name}</span>
             </div>
@@ -134,7 +134,7 @@ export default function QuickTranslator({
               ⇄
             </button>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-base-950 rounded-xl text-xs font-semibold text-white">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#09090b] rounded-xl text-xs font-semibold text-white">
               <span>{targetLang.flag}</span>
               <span>{targetLang.name}</span>
             </div>
@@ -216,7 +216,7 @@ export default function QuickTranslator({
                 <span className="text-[10px] text-slate-500">Ready to use</span>
               </div>
 
-              <div className="text-base font-medium text-white leading-relaxed bg-base-950 p-3 rounded-xl border border-base-800/80 select-text">
+              <div className="text-base font-medium text-white leading-relaxed bg-[#09090b] p-3 rounded-xl border border-base-800/80 select-text">
                 {result}
               </div>
 

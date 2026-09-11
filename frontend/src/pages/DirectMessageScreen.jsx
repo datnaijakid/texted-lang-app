@@ -426,7 +426,7 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
   const activeChips = suggestedReplies.length > 0 ? suggestedReplies : starterChips
 
   return (
-    <div className="h-screen w-full flex flex-col bg-base-950 text-slate-100 overflow-hidden font-sans">
+    <div className="h-screen w-full flex flex-col bg-[#09090b] text-slate-100 overflow-hidden font-sans">
       {/* ========================================================================= */}
       {/* 1. INSTAGRAM-DM HEADER */}
       {/* ========================================================================= */}
@@ -736,7 +736,7 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
                 </button>
               </div>
             ) : (
-              <div className="w-72 bg-base-950/95 border border-blue-500/40 rounded-2xl p-3 shadow-2xl space-y-2 backdrop-blur-md animate-pop-in">
+              <div className="w-72 bg-[#09090b]/95 border border-blue-500/40 rounded-2xl p-3 shadow-2xl space-y-2 backdrop-blur-md animate-pop-in">
                 <div className="flex items-center justify-between text-[11px] text-slate-400">
                   <span className="font-bold text-blue-400 flex items-center gap-1">
                     <span>🌐</span>

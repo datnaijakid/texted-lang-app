@@ -81,7 +81,7 @@ export default function ProfileDrawer({
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex justify-end transition-opacity">
-      <div className="w-full max-w-md bg-base-950 border-l border-base-800 h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200">
+      <div className="w-full max-w-md bg-[#09090b] border-l border-base-800 h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200">
         {/* Drawer Header */}
         <div className="px-5 py-4 border-b border-base-800 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -261,7 +261,7 @@ export default function ProfileDrawer({
                     type="checkbox"
                     checked={autoTranslate}
                     onChange={(e) => setAutoTranslate(e.target.checked)}
-                    className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 bg-base-950 border-base-700"
+                    className="w-4 h-4 mt-0.5 rounded text-blue-600 focus:ring-blue-500 bg-[#09090b] border-base-700"
                   />
                   <div>
                     <div className="text-xs font-semibold text-white">Always show translations</div>
