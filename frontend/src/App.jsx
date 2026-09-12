@@ -24,13 +24,25 @@ export default function App() {
   }
 
   useEffect(() => {
-    refreshUser().finally(() => setCheckedAuth(true))
+    const timer = setTimeout(() => {
+      setCheckedAuth(true)
+    }, 2000)
+
+    refreshUser().finally(() => {
+      clearTimeout(timer)
+      setCheckedAuth(true)
+    })
+
+    return () => clearTimeout(timer)
   }, [])
 
   if (!checkedAuth) {
     return (
-      <div className="min-h-screen bg-[#09090b] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+      <div className="min-h-screen bg-[#09090b] flex flex-col items-center justify-center gap-3">
+        <div className="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white text-2xl shadow-lg animate-pulse">
+          💬
+        </div>
+        <div className="w-5 h-5 rounded-full border-2 border-blue-500 border-t-transparent animate-spin mt-1" />
       </div>
     )
   }

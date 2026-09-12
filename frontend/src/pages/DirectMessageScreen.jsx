@@ -297,6 +297,9 @@ export default function DirectMessageScreen({ user, onUserUpdated, onLogout }) {
     setAiTyping(true)
 
     try {
+      if (!conversation?.conversation_id) {
+        throw new Error('Conversation not loaded yet. Please try again.')
+      }
       const res = await api.sendChatMessage(conversation.conversation_id, content)
 
       // Replace user message with backend version if it has feedback/correction
